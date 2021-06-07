@@ -15,11 +15,16 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 streets.addTo(map);
 
 // Accessing the airport GeoJSON URL
-let airportData = "https://raw.githubusercontent.com/Sgarza7812/Mapping_Earthquakes/main/majorAirports.json";
+let airportData = "https://raw.githubusercontent.com/Sgarza7812/Mapping_Earthquakes/Mapping_GeoJSON_Points/majorAirports.json";
 
 // Grabbing our GeoJSON data.
 d3.json(airportData).then(function(data) {
   console.log(data);
 // Creating a GeoJSON layer with the retrieved data.
-L.geoJson(data).addTo(map);
+L.geoJson(data, {
+  onEachFeature: function(feature, layer) {
+    console.log(layer);
+    layer.bindPopup('<h1>Airport code: '+feature.properties.faa+'</h1>__________________________________________<p>Airport name: '+feature.properties.name+'</p>');
+  }
+}).addTo(map);
 });
